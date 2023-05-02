@@ -1,30 +1,18 @@
 [
   {
+    "id": "1683041514208",
+    "start_date": "2023-05-18",
+    "end_date": "2023-05-19",
+    "campground_url": "https://www.recreation.gov/camping/campgrounds/234539",
+    "campground_id": "234539",
+    "campground_name": "SARDINE LAKE"
+  },
+  {
+    "id": "1683041940014",
     "start_date": "2023-05-04",
-    "end_date": "2023-05-06",
+    "end_date": "2023-05-05",
     "campground_url": "https://www.recreation.gov/camping/campgrounds/234539",
     "campground_id": "234539",
     "campground_name": "SARDINE LAKE"
-  },
-  {
-    "start_date": "2023-10-10",
-    "end_date": "2023-10-11",
-    "campground_url": "https://www.recreation.gov/camping/campgrounds/234539",
-    "campground_id": "234539",
-    "campground_name": "SARDINE LAKE"
-  },
-  {
-    "start_date": "2023-05-25",
-    "end_date": "2023-05-26",
-    "campground_url": "https://www.recreation.gov/camping/campgrounds/233116",
-    "campground_id": "233116",
-    "campground_name": "KIRK CREEK CAMPGROUND"
-  },
-  {
-    "start_date": "2023-05-19",
-    "end_date": "2023-05-20",
-    "campground_url": "https://www.recreation.gov/camping/campgrounds/233116",
-    "campground_id": "233116",
-    "campground_name": "KIRK CREEK CAMPGROUND"
   }
 ]
