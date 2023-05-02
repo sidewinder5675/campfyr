@@ -14,5 +14,29 @@
     "campground_url": "https://www.recreation.gov/camping/campgrounds/234539",
     "campground_id": "234539",
     "campground_name": "SARDINE LAKE"
+  },
+  {
+    "id": "1683043208371",
+    "start_date": "2023-06-14",
+    "end_date": "2023-06-15",
+    "campground_url": "https://www.recreation.gov/camping/campgrounds/234539",
+    "campground_id": "234539",
+    "campground_name": "SARDINE LAKE"
+  },
+  {
+    "id": "1683043366821",
+    "start_date": "2023-08-16",
+    "end_date": "2023-08-17",
+    "campground_url": "https://www.recreation.gov/camping/campgrounds/234539",
+    "campground_id": "234539",
+    "campground_name": "SARDINE LAKE"
+  },
+  {
+    "id": "1683043366820",
+    "start_date": "2023-08-16",
+    "end_date": "2023-08-17",
+    "campground_url": "https://www.recreation.gov/camping/campgrounds/234539",
+    "campground_id": "234539",
+    "campground_name": "SARDINE LAKE"
   }
 ]

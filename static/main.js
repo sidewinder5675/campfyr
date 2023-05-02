@@ -224,7 +224,6 @@ const fetchData = async () => {
     data.length = 0;
     Array.prototype.push.apply(data, fetchedData);
     renderCampgroundContainer();
-    initializeDatepicker(); // Reinitialize the Litepicker after fetching the data
   } catch (error) {
     console.error("Error fetching data:", error);
   }
