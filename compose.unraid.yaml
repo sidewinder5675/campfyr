@@ -1,0 +1,27 @@
+name: campfyr
+
+x-campfyr: &campfyr-common
+  image: seydelserver/campfyr:${CAMPFYR_IMAGE_TAG:-latest}
+  env_file:
+    - .env
+  environment:
+    CAMPFYR_DATABASE_PATH: /data/campfyr.db
+  volumes:
+    - /mnt/user/appdata/campfyr/data:/data
+  restart: unless-stopped
+
+services:
+  web:
+    <<: *campfyr-common
+    container_name: Campfyr
+    ports:
+      - "${CAMPFYR_PORT:-5001}:5001"
+
+  worker:
+    <<: *campfyr-common
+    container_name: Campfyr-Worker
+    command: ["python", "-m", "campfyr.worker"]
+    depends_on:
+      web:
+        condition: service_healthy
+

@@ -19,6 +19,8 @@
 
 Campfyr runs quietly on a NAS or home server. Paste a Recreation.gov campground URL, choose your dates, and let the background worker check for cancellations. When a match appears, Campfyr sends the open site numbers and booking link through Pushover—or optionally by Twilio SMS.
 
+> **Running Unraid?** Use the [Unraid deployment guide](docs/unraid.md) and the included [`compose.unraid.yaml`](compose.unraid.yaml). GitHub can build and publish the Docker Hub image automatically, so updates never need to be compiled on your Mac or PC.
+
 ## Why Campfyr?
 
 | | |
@@ -55,6 +57,8 @@ docker compose up -d --build
 ```
 
 Open `http://YOUR-NAS-IP:5001`, add a campground, and click **Send a test** before relying on your first alert.
+
+For Unraid, use the prebuilt `seydelserver/campfyr:latest` image and the dedicated [Unraid Compose file](compose.unraid.yaml) instead of building locally.
 
 ```sh
 # Confirm both services are healthy
@@ -143,6 +147,13 @@ Update a checkout with:
 ```sh
 git pull
 docker compose up -d --build
+```
+
+An Unraid installation using the published image updates without rebuilding:
+
+```sh
+docker compose -f compose.unraid.yaml pull
+docker compose -f compose.unraid.yaml up -d
 ```
 
 The `campfyr-data` Docker volume contains the SQLite database. Include that volume in the NAS backup routine. The container image and source checkout can always be recreated; the volume is the state worth preserving.
