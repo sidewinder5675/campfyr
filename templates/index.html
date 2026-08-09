@@ -1,39 +1,136 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/litepicker/dist/css/litepicker.css" />
-    <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Campground Monitor</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
-    <style>
-      body {
-        font-family: 'Roboto', sans-serif;
-      }
-    </style>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#10261f" />
+    <title>Campfyr · Campsite availability</title>
+    <link rel="icon" href="/static/campfyrlogo.png" />
+    <link rel="stylesheet" href="/static/styles.css" />
   </head>
-  
-  <body class="bg-gray-900 text-white min-h-screen">
-    <div class="container mx-auto px-4 py-8 max-w-md">
-      <img src="/static/campfyrlogo.png" alt="CampFyr Logo" class="w-48 h-auto mx-auto mb-4" />
-      <div id="campground-container" class="text-center"></div>
-      <div>
-        <form id="add-entry-form" class="space-y-4">
-          <div>
-            <label for="date-range" class="block">Date Range:</label>
-            <input type="text" id="date-range" name="date-range" required class="w-full bg-gray-700 text-white rounded px-4 py-2 mt-1" />
-          </div>
-          <div>
-            <label for="campground-url" class="form-label block">Campground URL:</label>
-            <input type="url" class="w-full bg-gray-700 text-white rounded px-4 py-2 mt-1" id="campground-url" required />
-          </div>
-          <button type="submit" class="btn btn-primary bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Add entry</button>
-        </form>
+  <body>
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <header class="site-header shell">
+      <a class="brand" href="/" aria-label="Campfyr home">
+        <img src="/static/campfyrlogo.png" alt="" width="52" height="52" />
+        <span>
+          <strong>CAMPFYR</strong>
+          <small>Campsite availability, watched.</small>
+        </span>
+      </a>
+      <div class="system-state" id="system-state" aria-live="polite">
+        <span class="status-dot"></span>
+        <span>Connecting…</span>
       </div>
-    </div>
-    <script src="/static/main.js"></script>
+    </header>
+
+    <main class="shell page-grid">
+      <section class="intro">
+        <p class="eyebrow">YOUR NEXT CAMPSITE</p>
+        <h1>Let cancellations<br /><em>come to you.</em></h1>
+        <p class="intro-copy">
+          Pick a Recreation.gov campground and either an exact stay or a flexible window.
+          Campfyr checks in the background and lets you know when a site opens.
+        </p>
+        <div class="promise-row" aria-label="Campfyr features">
+          <span><b>10 min</b> checks</span>
+          <span><b>One alert</b> per opening</span>
+          <span><b>Two modes</b> exact or flexible</span>
+        </div>
+      </section>
+
+      <section class="panel add-panel" aria-labelledby="add-heading">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">NEW WATCH</p>
+            <h2 id="add-heading">Where do you want to go?</h2>
+          </div>
+          <span class="step-badge">01</span>
+        </div>
+
+        <form id="watch-form">
+          <label for="campground-url">Recreation.gov campground</label>
+          <div class="input-wrap url-input">
+            <span aria-hidden="true">⌁</span>
+            <input
+              id="campground-url"
+              name="campground_url"
+              type="text"
+              inputmode="url"
+              placeholder="Paste campground URL or ID"
+              autocomplete="url"
+              required
+            />
+          </div>
+
+          <div class="date-grid">
+            <div>
+              <label for="start-date">Arrival</label>
+              <input id="start-date" name="start_date" type="date" required />
+            </div>
+            <div>
+              <label for="end-date">Checkout</label>
+              <input id="end-date" name="end_date" type="date" required />
+            </div>
+          </div>
+          <p class="field-note">Checkout isn’t counted as a camping night.</p>
+
+          <fieldset class="match-fieldset">
+            <legend>What counts as a match?</legend>
+            <label class="match-option">
+              <input type="radio" name="match_mode" value="entire_stay" checked />
+              <span><strong>One site for the whole trip</strong><small>Best when these are your exact travel dates</small></span>
+            </label>
+            <label class="match-option">
+              <input type="radio" name="match_mode" value="any_night" />
+              <span><strong>Any single open night</strong><small>Matches the original Chronos script</small></span>
+            </label>
+          </fieldset>
+          <button class="button button-primary button-full" type="submit" id="add-button">
+            <span>Start watching</span><span aria-hidden="true">→</span>
+          </button>
+        </form>
+      </section>
+
+      <section class="watch-section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">ACTIVE SEARCHES</p>
+            <h2>Your watchlist <span id="watch-count">0</span></h2>
+          </div>
+          <button class="button button-quiet" id="check-all-button" type="button">
+            <span class="refresh-icon" aria-hidden="true">↻</span> Check now
+          </button>
+        </div>
+
+        <div class="notice" id="notification-notice" hidden>
+          <div>
+            <strong>Notifications need setup</strong>
+            <p>Add your Pushover keys to <code>.env</code>, then restart Campfyr.</p>
+          </div>
+          <button class="button button-small" id="test-notification-button" type="button" hidden>
+            Send a test
+          </button>
+        </div>
+
+        <div id="watch-list" class="watch-list" aria-live="polite"></div>
+
+        <div class="empty-state" id="empty-state">
+          <div class="empty-icon">△</div>
+          <h3>No campfires to tend yet</h3>
+          <p>Add a campground above and Campfyr will keep watch.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="shell">
+      <span>Campfyr checks availability; reservations are completed on Recreation.gov.</span>
+      <span id="version-label"></span>
+    </footer>
+
+    <div class="toast-region" id="toast-region" aria-live="assertive"></div>
+    <script src="/static/main.js" defer></script>
   </body>
 </html>

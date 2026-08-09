@@ -1,0 +1,28 @@
+name: campfyr
+
+x-campfyr: &campfyr-common
+  build: .
+  image: campfyr:local
+  env_file:
+    - .env
+  environment:
+    CAMPFYR_DATABASE_PATH: /data/campfyr.db
+  volumes:
+    - campfyr-data:/data
+  restart: unless-stopped
+
+services:
+  web:
+    <<: *campfyr-common
+    ports:
+      - "5001:5001"
+
+  worker:
+    <<: *campfyr-common
+    command: ["python", "-m", "campfyr.worker"]
+    depends_on:
+      web:
+        condition: service_healthy
+
+volumes:
+  campfyr-data:
