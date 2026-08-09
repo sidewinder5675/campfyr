@@ -31,7 +31,6 @@ def create_app(test_config=None):
     if test_config:
         app.config.update(test_config)
 
-    Path(app.instance_path).mkdir(parents=True, exist_ok=True)
     init_database(app.config["DATABASE_PATH"])
 
     from .web import web
