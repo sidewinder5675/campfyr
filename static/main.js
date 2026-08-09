@@ -19,7 +19,7 @@ const elements = {
 
 const statusLabels = {
   pending: "Waiting for first check",
-  unavailable: "No full-stay sites yet",
+  unavailable: "No matching sites yet",
   available: "Availability found",
   paused: "Paused",
   expired: "Expired",
